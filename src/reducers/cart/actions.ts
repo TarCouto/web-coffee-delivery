@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Item } from './reducer'
-import { OrderInfo } from '@/src/app/(store)/cart/page'
+import { OrderInfo } from '@/src/components/form'
 
 export enum ActionTypes {
   ADD_ITEM = 'ADD_ITEM',

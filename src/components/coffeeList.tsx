@@ -1,7 +1,7 @@
 // components/CoffeeList.tsx (Server Component)
 import { api } from '../data/api'
 import { CoffeeType } from '../data/types/coffee'
-import { QuantityCartInput } from './quantityCartInput'
+import { ContainerCartMap } from '@/src/components/quantityCartInput'
 
 async function getCoffees(): Promise<CoffeeType[]> {
   const response = await api('/coffees', {
@@ -26,7 +26,7 @@ export default async function CoffeeList() {
   return (
     <div>
       {coffees.map((coffee) => (
-        <QuantityCartInput key={coffee.id} coffee={coffee} />
+        <ContainerCartMap key={coffee.id} coffee={coffee} />
       ))}
     </div>
   )

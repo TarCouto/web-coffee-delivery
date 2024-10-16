@@ -15,6 +15,8 @@ import { TextInput } from '@/src/components/textInput'
 
 import { useCart } from '../hooks/useCart'
 import { Radio } from '@/src/components/radio'
+import { api } from '../data/api'
+import { useRouter } from 'next/navigation'
 
 type FormInputs = {
   cep: number
@@ -43,7 +45,8 @@ const newOrder = z.object({
 export type OrderInfo = z.infer<typeof newOrder>
 
 export function Form() {
-  const { cart, checkout } = useCart()
+  const { cart } = useCart()
+  const router = useRouter()
 
   const {
     register,
@@ -56,14 +59,33 @@ export function Form() {
 
   const selectedPaymentMethod = watch('paymentMethod')
 
-  const handleOrderCheckout: SubmitHandler<FormInputs> = (data) => {
+  const handleOrderCheckout: SubmitHandler<FormInputs> = async (data) => {
     if (cart.length === 0) {
       return alert('É preciso ter pelo menos um item no carrinho')
     }
 
-    checkout(data) // Função de checkout, pode ser uma API ou lógica de negócio
+    try {
+      // Make the POST request to the API
+      const response = await api('/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data), // Send the form data
+      })
 
-    // Após o checkout, redireciona para a página de sucesso
+      if (!response.ok) {
+        throw new Error('Erro ao enviar o pedido')
+      }
+
+      const result = await response.json()
+      console.log('Pedido enviado com sucesso:', result)
+
+      // Redirect to the success page after order submission
+      router.push(`/order/${result.orderId}/success`)
+    } catch (error) {
+      console.error('Erro ao processar a ordem:', error)
+    }
   }
 
   return (
