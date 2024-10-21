@@ -12,7 +12,7 @@ const paymentMethod = {
   cash: 'Dinheiro',
 }
 
-export function Success() {
+export default function Success() {
   const { orders } = useCart()
   const { orderId } = useParams()
   const orderInfo = orders.find((order) => order.id === Number(orderId))
