@@ -18,7 +18,7 @@ export function Success() {
   const orderInfo = orders.find((order) => order.id === Number(orderId))
 
   if (!orderInfo?.id) {
-    return null
+    return <p>Pedido não encontrado</p>
   }
 
   return (
@@ -82,7 +82,7 @@ export function Success() {
       </section>
 
       <Image
-        src="/images/delivery.svg"
+        src="/delivery.svg"
         alt="Pedido concluído"
         width={500}
         height={300}

@@ -15,6 +15,8 @@ import {
 } from '@/src/reducers/cart/actions'
 import { cartReducer, Item, Order } from '@/src/reducers/cart/reducer'
 import { OrderInfo } from '@/src/components/form'
+import { api } from '../data/api'
+import { useRouter } from 'next/navigation'
 
 interface CartContextType {
   cart: Item[]
@@ -32,7 +34,11 @@ interface CartContextProviderProps {
   children: ReactNode
 }
 
+// Extender o tipo OrderInfo para incluir o campo opcional `id`
+export type OrderWithId = OrderInfo & { id?: string }
+
 export function CartContextProvider({ children }: CartContextProviderProps) {
+  const router = useRouter()
   const [cartState, dispatch] = useReducer(
     cartReducer,
     {
@@ -65,9 +71,44 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
   }
 
   function checkout(order: OrderInfo) {
-    // Dispara a ação de checkout
-    dispatch(checkoutCartAction(order))
-    // Redireciona o usuário para a página de sucesso
+    // Primeiro verifica se o carrinho tem itens
+    if (cart.length === 0) {
+      return alert('É preciso ter pelo menos um item no carrinho')
+    }
+
+    // Faz o POST na API
+    api('/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...order,
+        items: cart, // Inclui os itens do carrinho
+      }),
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error('Erro ao enviar o pedido')
+        }
+
+        const result = await response.json()
+
+        // Após o sucesso do POST, despacha a ação para o reducer
+        dispatch(
+          checkoutCartAction({
+            id: result.orderId, // ID retornado pela API
+            items: cart, // Itens do carrinho
+            ...order, // Outras informações do pedido (número, endereço, pagamento, etc.)
+          } as OrderWithId),
+        )
+
+        // Redireciona o usuário para a página de sucesso
+        router.push(`/order/${result.orderId}/success`)
+      })
+      .catch((error) => {
+        console.error('Erro ao processar a ordem:', error)
+      })
   }
 
   function incrementItemQuantity(itemId: Item['id']) {
