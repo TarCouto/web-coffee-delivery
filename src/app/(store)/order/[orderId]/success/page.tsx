@@ -22,10 +22,10 @@ export default function Success() {
   }
 
   return (
-    <main className="flex max-w-6xl mx-auto p-20 items-end justify-between gap-10">
-      <section className="flex flex-col gap-10">
+    <main className="flex max-w-6xl mx-auto px-3 pt-[40px] items-end justify-between gap-10">
+      <section className="flex flex-col max-w-7xl gap-10">
         <div className="flex flex-col gap-1">
-          <h2 className="text-yellow-dark text-4xl font-bold">
+          <h2 className="text-yellow-dark text-3xl font-extrabold">
             Uhu! Pedido confirmado
           </h2>
           <span className="text-lg text-gray-700">
@@ -33,7 +33,7 @@ export default function Success() {
           </span>
         </div>
 
-        <div className="border border-transparent rounded-[6px_36px] w-full bg-gradient-to-br from-yellow-500 to-purple-500 p-10">
+        <div className="border border-transparent rounded-[6px_36px] bg-gradient-to-br from-yellow-light to-purple-500 p-2">
           <div className="bg-white p-10 rounded-[6px_36px] flex flex-col gap-8">
             <div className="flex items-center gap-3">
               <MapPin
@@ -44,11 +44,11 @@ export default function Success() {
               <div className="flex flex-col">
                 <span className="text-black">
                   Entrega em{' '}
-                  <strong>
+                  <strong className="text-black">
                     {orderInfo.street}, {orderInfo.number}
                   </strong>
                 </span>
-                <span>
+                <span className="text-black">
                   {orderInfo.neighborhood} - {orderInfo.city}, {orderInfo.state}
                 </span>
               </div>
@@ -82,14 +82,15 @@ export default function Success() {
           </div>
         </div>
       </section>
-
-      <Image
-        src="/delivery.svg"
-        alt="Pedido concluído"
-        width={500}
-        height={300}
-        className="mb-[-13px]"
-      />
+      <div>
+        <Image
+          src="/delivery.svg"
+          alt="Pedido concluído"
+          width={500}
+          height={300}
+          className="mb-[-13px]"
+        />
+      </div>
     </main>
   )
 }
