@@ -25,7 +25,7 @@ export default function Success() {
     <main className="flex max-w-6xl mx-auto p-20 items-end justify-between gap-10">
       <section className="flex flex-col gap-10">
         <div className="flex flex-col gap-1">
-          <h2 className="text-yellow-700 text-4xl font-bold">
+          <h2 className="text-yellow-dark text-4xl font-bold">
             Uhu! Pedido confirmado
           </h2>
           <span className="text-lg text-gray-700">
@@ -42,7 +42,7 @@ export default function Success() {
                 style={{ backgroundColor: '#8047F8', color: '#FFF' }}
               />
               <div className="flex flex-col">
-                <span>
+                <span className="text-black">
                   Entrega em{' '}
                   <strong>
                     {orderInfo.street}, {orderInfo.number}
@@ -61,8 +61,8 @@ export default function Success() {
                 style={{ backgroundColor: '#DBAC2C', color: '#FFF' }}
               />
               <div className="flex flex-col">
-                <span>Previsão de entrega</span>
-                <strong>20 min - 30 min</strong>
+                <span className="text-black">Previsão de entrega</span>
+                <strong className="text-black">20 min - 30 min</strong>
               </div>
             </div>
 
@@ -73,8 +73,10 @@ export default function Success() {
                 style={{ backgroundColor: '#C47F17', color: '#FFF' }}
               />
               <div className="flex flex-col">
-                <span>Pagamento na entrega</span>
-                <strong>{paymentMethod[orderInfo.paymentMethod]}</strong>
+                <span className="text-black">Pagamento na entrega</span>
+                <strong className="text-black">
+                  {paymentMethod[orderInfo.paymentMethod]}
+                </strong>
               </div>
             </div>
           </div>
